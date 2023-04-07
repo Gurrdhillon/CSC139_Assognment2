@@ -1,11 +1,11 @@
 import java.util.List;
 
-public class Priority implements Algorithm {
+public class SJF implements Algorithm {
 
     List<Task> queue = null;
 
-    public Priority(List<Task> queue) {
-        this.queue = queue;
+    public SJF(List<Task> queue) {
+        this.queue =  queue;
     }
 
     @Override
@@ -27,18 +27,19 @@ public class Priority implements Algorithm {
 
     @Override
     public Task pickNextTask() {
-        int priorityIndex = 0;
+        int shortestBurstIndex = 0;
         /*
          * Search for the index of the Task with shortest burst
          */
         for ( int i = 1; i < queue.size(); i++) {
-            if (queue.get(i).getPriority() < queue.get(priorityIndex).getPriority()){
-                priorityIndex = i;
+            if (queue.get(i).getBurst() < queue.get(shortestBurstIndex).getBurst() ){
+                shortestBurstIndex = i;
             }
         }
         /*
          * Return the Task with shortestBurst
          */
-        return queue.remove(priorityIndex);
+        return queue.remove(shortestBurstIndex);
     }
-    }
+
+}

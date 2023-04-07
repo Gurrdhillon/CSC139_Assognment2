@@ -1,10 +1,12 @@
 import java.util.List;
 
-public class Priority implements Algorithm {
+public class PriorityRR implements Algorithm {
+    
 
-    List<Task> queue = null;
+    private List<Task> queue;
+    int quantum = 10; //slice time in ms
 
-    public Priority(List<Task> queue) {
+    public PriorityRR(List<Task> queue) {
         this.queue = queue;
     }
 
@@ -36,9 +38,18 @@ public class Priority implements Algorithm {
                 priorityIndex = i;
             }
         }
-        /*
-         * Return the Task with shortestBurst
-         */
-        return queue.remove(priorityIndex);
+
+        Task process = queue.remove(priorityIndex);
+        int b = quantum - process.getBurst();   //quantum - burstTime
+
+        if (b <= 0) {
+            return process;
+        } else {
+            process.setBurst(b);
+            queue.add(process);
+            return null;
+        }
+
     }
-    }
+
+}
